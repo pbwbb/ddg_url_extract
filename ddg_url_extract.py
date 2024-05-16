@@ -10,12 +10,20 @@ with open(file_path, 'r',encoding='utf-8') as file:
 soup = BeautifulSoup(html, 'html.parser').find_all("a", href=True)
 for link in soup:
     try:
-        url = link['href'].split('uddg=')[1]
-        print(url)
-        url = url.split('&rut')[0].strip()
-        decoded_url = urllib.parse.unquote(url)
-        with open('extracted_urls.txt', 'a',encoding='utf-8') as file:
-            file.write(decoded_url + '\n')
+        if "duckduckgo.com" in link:
+            url = link['href'].split('uddg=')[1]
+            print(url)
+            url = url.split('&rut')[0].strip()
+            decoded_url = urllib.parse.unquote(url)
+            print(decoded_url)
+            with open('extracted_urls.txt', 'a',encoding='utf-8') as file:
+                file.write(decoded_url + '\n')
+        else:
+            url = link['href']
+            decoded_url = urllib.parse.unquote(url)
+            print(decoded_url)
+            with open('extracted_urls.txt', 'a',encoding='utf-8') as file:
+                file.write(decoded_url + '\n')
     except:
         pass
         
